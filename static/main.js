@@ -19,10 +19,8 @@ function renderPapers (papers) {
 }
 
 function searchArxiv () {
-    if (event.keyCode == 13) {
-        var keyword = document.getElementById("search").value
-        fetchPapers(keyword, 5, 0)    
-    }
+    var keyword = document.getElementById("search").value
+    fetchPapers(keyword, 5, 0)
 }
 
 function prev () {
