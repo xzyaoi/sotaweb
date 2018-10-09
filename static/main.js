@@ -20,6 +20,8 @@ function renderPapers (papers) {
 
 function searchArxiv () {
     var keyword = document.getElementById("search").value
+    current_curr = 0
+    current_keyword = keyword
     fetchPapers(keyword, 5, 0)
 }
 

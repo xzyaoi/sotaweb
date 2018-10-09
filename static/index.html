@@ -5,10 +5,10 @@
     <link rel="stylesheet" href="./main.css">
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="./main.js"></script>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="./tmpl.js"></script>
+    <script src="./main.js"></script>
     <title>Arxiv Reader</title>
 </head>
 
@@ -17,7 +17,7 @@
         <div class="nav-wrapper arxiv-nav-bar">
             <form>
                 <div class="input-field">
-                    <input id="search" type="search" required">
+                    <input id="search" type="search" required" onkeydown="triggerSearch(event, this)">
                     <label class="label-icon" for="search"><i class="material-icons">search</i></label>
                     <i class="material-icons">close</i>
                 </div>
@@ -40,7 +40,8 @@
 </body>
 <footer>
     <script>
-        document.onkeyup = function(e) {
+        function triggerSearch (e, self) {
+            e.preventDefault()
             var event = e || window.event;
             var key = event.which || event.keyCode || event.charCode;
             if (key == 13) {
