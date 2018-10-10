@@ -6,8 +6,11 @@
     <link rel="stylesheet" href="./main.css">
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="./tmpl.js"></script>
+    <script src="./assets/js/sjcl.js"></script>
+    <script src="./assets/js/anvil.js"></script>
+    <script src="./assets/js/tmpl.js"></script>
     <script src="./main.js"></script>
     <title>Arxiv Reader</title>
 </head>
@@ -37,6 +40,7 @@
                 </div>
             </li>
             <div id="firebaseui-auth-container"></div>
+            <li><a href="javascript:triggerAuth()">Login</a></li>
             <li><a href="https://github.com/xzyaoi/sotaweb">About</a></li>
             <li><a href="https://opencollective.com/autoai">Donate</a></li>
         </ul>
@@ -60,6 +64,7 @@
 <footer>
     <script>
         M.AutoInit()
+        initAnvil()
         function triggerSearch(e, self) {
             var event = e || window.event;
             var key = event.which || event.keyCode || event.charCode;

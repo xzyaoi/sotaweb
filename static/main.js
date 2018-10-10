@@ -56,3 +56,19 @@ function triggerSideNav() {
 }
 
 /** User Management */
+function initAnvil() {
+    Anvil.configure({
+        issuer: 'https://auth.autoai.org',
+        client_id: '985c0693-82ec-4e92-a9f0-3ceb4016de90',
+        redirect_uri: 'https://arxiv.autoai.org/callback.html',
+        display: 'popup'
+    })
+}
+
+function triggerAuth() {
+    Anvil.authorize().then(function (res) {
+        console.log(res)
+    }, function(fault) {
+        console.log(fault)
+    })
+}
