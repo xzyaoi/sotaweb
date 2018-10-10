@@ -13,16 +13,35 @@
 </head>
 
 <body>
-    <nav>
-        <div class="nav-wrapper arxiv-nav-bar">
-                <div class="input-field">
-                    <input id="search" type="search" required" onkeydown="triggerSearch(event, this)">
+    <div class="navbar-fixed">
+        <nav>
+            <div class="nav-wrapper arxiv-nav-bar">
+                <a href="javascript:triggerSideNav()" data-target="slide-out" class="sidenav-trigger show-on-large" id="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <div class="input-field arxiv-search-field">
+                    <input id="search" type="search" required onkeydown="triggerSearch(event, this)">
                     <label class="label-icon" for="search"><i class="material-icons">search</i></label>
                     <i class="material-icons">close</i>
                 </div>
-        </div>
-    </nav>
+            </div>
+        </nav>
+    </div>
+    <ul id="slide-out" class="sidenav">
+            <li>
+                <div class="user-view">
+                    <div class="background">
+                        <img src="images/office.jpg">
+                    </div>
+                    <a href="#user"><img class="circle"></a>
+                    <a href="#name"><span class="white-text name">John Doe</span></a>
+                    <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+                </div>
+            </li>
+            <li><a href="#!">Second Link</a></li>
+        </ul>
     <div class="collection" id="results">
+    </div>
+    <div class="hint" id="hint">
+        <h4>Type something above to begin search</h4>
     </div>
     <div class="pagination">
         <a class="waves-effect waves-teal btn-flat more-btn" href="javascript:prev()">Previous</a>
@@ -30,7 +49,7 @@
     </div>
     <script type="text/x-tmpl" id="tmpl-results">
         {% for (var i=0; i<o.length; i++) { %} 
-            <a href="{%=o[i].pdf_url%}" class="collection-item arxiv-paper-item" target="_blank">{%=o[i].title%} <p class="arxiv-paper-author">by {%=o[i].authors[0]%}</p>
+            <a href="{%=o[i].pdf_url%}" class="collection-item arxiv-paper-item" target="_blank"><B>{%=o[i].title%}</B> <p class="arxiv-paper-author">by {%=o[i].authors[0]%} at {%=o[i].updated_parsed[0]%}-{%=o[i].updated_parsed[1]%}-{%=o[i].updated_parsed[2]%} {%=o[i].updated_parsed[3]%}:{%=o[i].updated_parsed[4]%}:{%=o[i].updated_parsed[5]%}</p>
                 <p>{%=o[i].summary%}</p>
             </a>
         {% } %}
@@ -38,11 +57,13 @@
 </body>
 <footer>
     <script>
-        function triggerSearch (e, self) {
+        M.AutoInit()
+        function triggerSearch(e, self) {
             var event = e || window.event;
             var key = event.which || event.keyCode || event.charCode;
             if (key == 13) {
-                searchArxiv()
+                self.blur()
+                searchArxiv(self)
             }
         }
     </script>

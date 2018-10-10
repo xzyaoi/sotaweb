@@ -1,5 +1,6 @@
 .arxiv-nav-bar {
-    background-color: #b31b1b
+    background-color: #b31b1b;
+    display: flex;
 }
 .pagination {
     text-align: center;
@@ -9,4 +10,11 @@
 }
 .arxiv-paper-author {
     color: #26a69a!important;
+}
+
+.arxiv-search-field {
+    min-width: 70%;
+}
+.hint {
+    text-align: center;
 }
