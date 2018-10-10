@@ -4,15 +4,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="./main.css">
+    <link rel="manifest" href="manifest.json">
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/4.9.2/jsrsasign-all-min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/4.7.0/jsrsasign-all-min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="./assets/js/sans-eval.js"></script>
+    <script src="./assets/js/jws.js"></script>
     <script src="./assets/js/sjcl.js"></script>
     <script src="./assets/js/anvil.js"></script>
     <script src="./assets/js/tmpl.js"></script>
     <script src="./main.js"></script>
+    <script src="./app.js"></script>
     <title>Arxiv Reader</title>
 </head>
 
@@ -36,14 +40,15 @@
                         <img src="images/office.jpg">
                     </div>
                     <a href="#user"><img class="circle"></a>
-                    <a href="#name"><span class="white-text name">John Doe</span></a>
-                    <a href="#email"><span class="white-text email">jdandturk@gmail.com</span></a>
+                    <a href="#name"><span class="white-text name">Anonymous</span></a>
+                    <a href="#email"><span class="white-text email">my@anonymous.com</span></a>
                 </div>
             </li>
             <div id="firebaseui-auth-container"></div>
             <li><a href="javascript:triggerAuth()">Login</a></li>
             <li><a href="https://github.com/xzyaoi/sotaweb">About</a></li>
             <li><a href="https://opencollective.com/autoai">Donate</a></li>
+            <li><a name="add-to-home-screen">Add to Homescreen</a></li>
         </ul>
     <div class="collection" id="results">
     </div>

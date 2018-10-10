@@ -1,0 +1,25 @@
+{
+    "dir": "ltr",
+    "lang": "en",
+    "name": "Arxiv Reader",
+    "scope": "/",
+    "display": "standalone",
+    "start_url": "/",
+    "short_name": "MyArxiv",
+    "theme_color": "transparent",
+    "description": "Read Arxiv Papers",
+    "orientation": "any",
+    "background_color": "transparent",
+    "related_applications": [],
+    "prefer_related_applications": false,
+    "icons": [{
+      "src": "images/logo.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }, {
+      "src": "images/logo.png",
+      "sizes": "48x48",
+      "type": "image/png"
+    } 
+    ]
+  }
