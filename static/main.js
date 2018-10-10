@@ -18,6 +18,9 @@ function fetchPapers(keyword, max, start) {
         hideHint()
         current_keyword = keyword
         current_curr = start + max
+        for(var i=0; i<data.length; i++) {
+            data[i].pure_id = data[i].id.replace("http://arxiv.org/abs/", "")
+        }
         renderPapers(data)
     })
 }
@@ -71,4 +74,11 @@ function triggerAuth() {
     }, function(fault) {
         console.log(fault)
     })
+}
+
+function generateEmailAvatar() {
+    var email = document.getElementById('arxiv-user-email').innerHTML
+    var hash = md5(email)
+    var avatar = 'https://www.gravatar.com/avatar/' + hash
+    document.getElementById('arxiv-user-avatar').src = avatar
 }

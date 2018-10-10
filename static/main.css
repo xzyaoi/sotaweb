@@ -11,10 +11,16 @@
 .arxiv-paper-author {
     color: #26a69a!important;
 }
-
+.arxiv-paper-title {
+    font-family: Baskerville, Georgia, serif;
+}
 .arxiv-search-field {
     min-width: 70%;
 }
 .hint {
     text-align: center;
+}
+.arxiv-paper-card {
+    margin-left: 10px;
+    margin-right: 10px;
 }

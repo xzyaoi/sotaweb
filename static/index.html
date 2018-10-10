@@ -6,13 +6,15 @@
     <link rel="stylesheet" href="./main.css">
     <link rel="manifest" href="manifest.json">
     <!-- Compiled and minified JavaScript -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/4.7.0/jsrsasign-all-min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="./assets/js/sans-eval.js"></script>
     <script src="./assets/js/jws.js"></script>
     <script src="./assets/js/sjcl.js"></script>
+    <script src="./assets/js/jsbn.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.10.0/js/md5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/4.9.2/jsrsasign-all-min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="./assets/js/anvil.js"></script>
     <script src="./assets/js/tmpl.js"></script>
     <script src="./main.js"></script>
@@ -24,7 +26,8 @@
     <div class="navbar-fixed">
         <nav>
             <div class="nav-wrapper arxiv-nav-bar">
-                <a href="javascript:triggerSideNav()" data-target="slide-out" class="sidenav-trigger show-on-large" id="sidenav-trigger"><i class="material-icons">menu</i></a>
+                <a href="javascript:triggerSideNav()" data-target="slide-out" class="sidenav-trigger show-on-large" id="sidenav-trigger"><i
+                        class="material-icons">menu</i></a>
                 <div class="input-field arxiv-search-field">
                     <input id="search" type="search" required onkeydown="triggerSearch(event, this)">
                     <label class="label-icon" for="search"><i class="material-icons">search</i></label>
@@ -34,22 +37,22 @@
         </nav>
     </div>
     <ul id="slide-out" class="sidenav">
-            <li>
-                <div class="user-view">
-                    <div class="background">
-                        <img src="images/office.jpg">
-                    </div>
-                    <a href="#user"><img class="circle"></a>
-                    <a href="#name"><span class="white-text name">Anonymous</span></a>
-                    <a href="#email"><span class="white-text email">my@anonymous.com</span></a>
+        <li>
+            <div class="user-view">
+                <div class="background">
+                    <img src="images/office.jpg">
                 </div>
-            </li>
-            <div id="firebaseui-auth-container"></div>
-            <li><a href="javascript:triggerAuth()">Login</a></li>
-            <li><a href="https://github.com/xzyaoi/sotaweb">About</a></li>
-            <li><a href="https://opencollective.com/autoai">Donate</a></li>
-            <li><a name="add-to-home-screen">Add to Homescreen</a></li>
-        </ul>
+                <a href="#user"><img class="circle" id="arxiv-user-avatar"></a>
+                <a href="#name"><span class="white-text name">Anonymous</span></a>
+                <a href="#email"><span class="white-text email" id="arxiv-user-email">my@anonymous.com</span></a>
+            </div>
+        </li>
+        <div id="firebaseui-auth-container"></div>
+        <li><a href="javascript:triggerAuth()">Login</a></li>
+        <li><a href="https://github.com/xzyaoi/sotaweb">About</a></li>
+        <li><a href="https://opencollective.com/autoai">Donate</a></li>
+        <li><a name="add-to-home-screen">Add to Homescreen</a></li>
+    </ul>
     <div class="collection" id="results">
     </div>
     <div class="hint" id="hint">
@@ -61,9 +64,18 @@
     </div>
     <script type="text/x-tmpl" id="tmpl-results">
         {% for (var i=0; i<o.length; i++) { %} 
-            <a href="{%=o[i].pdf_url%}" class="collection-item arxiv-paper-item" target="_blank"><B>{%=o[i].title%}</B> <p class="arxiv-paper-author">by {%=o[i].authors[0]%} at {%=o[i].updated_parsed[0]%}-{%=o[i].updated_parsed[1]%}-{%=o[i].updated_parsed[2]%} {%=o[i].updated_parsed[3]%}:{%=o[i].updated_parsed[4]%}:{%=o[i].updated_parsed[5]%}</p>
-                <p>{%=o[i].summary%}</p>
-            </a>
+            <div class="card arxiv-paper-card">
+                <div class="card-content">
+                    <span class="card-title arxiv-paper-title">{%=o[i].title%}</span>
+                    <p class="arxiv-paper-author">by {%=o[i].authors[0]%} at {%=o[i].updated_parsed[0]%}-{%=o[i].updated_parsed[1]%}-{%=o[i].updated_parsed[2]%} {%=o[i].updated_parsed[3]%}:{%=o[i].updated_parsed[4]%}:{%=o[i].updated_parsed[5]%}</p>
+                    <p>{%=o[i].summary%}</p>
+                </div>
+                <div class="card-action">
+                    <a href="{%=o[i].pdf_url%}" target="_blank">Read Now</a>
+                    <a href="javascript:alert('not supported')">Read Later</a>
+                    <a href="https://www.arxiv-vanity.com/papers/{%=o[i].pure_id%}" target="_blank">Rendered</a>
+                </div>
+            </div>            
         {% } %}
     </script>
 </body>
@@ -71,6 +83,7 @@
     <script>
         M.AutoInit()
         initAnvil()
+        generateEmailAvatar()
         function triggerSearch(e, self) {
             var event = e || window.event;
             var key = event.which || event.keyCode || event.charCode;
