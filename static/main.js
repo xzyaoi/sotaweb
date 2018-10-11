@@ -27,6 +27,7 @@ function fetchPapers(keyword, max, start) {
 
 function renderPapers(papers) {
     document.getElementById("results").innerHTML = tmpl("tmpl-results", papers)
+    scrollTo(0,0)
 }
 
 function searchArxiv(self) {

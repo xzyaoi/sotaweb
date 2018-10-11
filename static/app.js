@@ -1,13 +1,11 @@
 const _self = this;
 
-console.log('In service worker.');
 
 _self.addEventListener('install', function () {
-    console.log('Install success');
 });
 
 _self.addEventListener('activate', function () {
-    console.log('Activated');
+    
 });
 
 const SERVICE_WORKER_API = 'serviceWorker';
@@ -22,5 +20,4 @@ if (isSupportServiceWorker()) {
         .then(() => console.log('Load service worker Success.'))
         .catch(() => console.error('Load service worker fail'));
 } else {
-    console.info('Browser not support Service Worker.');
 }

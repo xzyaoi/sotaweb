@@ -70,10 +70,10 @@
                     <p class="arxiv-paper-author">by {%=o[i].authors[0]%} at {%=o[i].updated_parsed[0]%}-{%=o[i].updated_parsed[1]%}-{%=o[i].updated_parsed[2]%} {%=o[i].updated_parsed[3]%}:{%=o[i].updated_parsed[4]%}:{%=o[i].updated_parsed[5]%}</p>
                     <p>{%=o[i].summary%}</p>
                 </div>
-                <div class="card-action">
-                    <a href="{%=o[i].pdf_url%}" target="_blank">Read Now</a>
-                    <a href="javascript:alert('not supported')">Read Later</a>
-                    <a href="https://www.arxiv-vanity.com/papers/{%=o[i].pure_id%}" target="_blank">Rendered</a>
+                <div class="card-action arxiv-card-actions">
+                    <a href="{%=o[i].pdf_url%}" target="_blank" class="arxiv-card-actions">Read Now</a>
+                    <a href="javascript:alert('not supported')" class="arxiv-card-actions">Read Later</a>
+                    <a href="https://www.arxiv-vanity.com/papers/{%=o[i].pure_id%}" target="_blank" class="arxiv-card-actions">Rendered</a>
                 </div>
             </div>            
         {% } %}
