@@ -5,13 +5,14 @@
       window.addEventListener('load', function () {
         var pageUrl = window.location.href
           , opener = window.opener
-          , pageOrigin = opener.location.origin
-        opener.postMessage(pageUrl, pageOrigin)
-      })
+          , pageOrigin = opener.location.origin;
+        opener.postMessage(pageUrl, pageOrigin);
+        window.close();
+      });
     </script>
   </head>
   <body>
-    <h1>sign-in successful</h1>
+    <h1>Anvil Connect sign-in successful</h1>
 
     <p>Please close this window.</p>
   </body>
