@@ -6,16 +6,10 @@
     <link rel="stylesheet" href="./main.css">
     <link rel="manifest" href="manifest.json">
     <!-- Compiled and minified JavaScript -->
-    <script src="./assets/js/sans-eval.js"></script>
-    <script src="./assets/js/jws.js"></script>
-    <script src="./assets/js/sjcl.js"></script>
-    <script src="./assets/js/jsbn.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.10.0/js/md5.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/4.9.2/jsrsasign-all-min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <script src="./assets/js/anvil.js"></script>
+    <script src="./assets/js/auth.js"></script>
     <script src="./assets/js/tmpl.js"></script>
     <script src="./main.js"></script>
     <script src="./app.js"></script>
@@ -48,7 +42,7 @@
             </div>
         </li>
         <div id="firebaseui-auth-container"></div>
-        <li><a href="javascript:triggerAuth()">Login</a></li>
+        <li><a href="javascript:triggerAuth()" id="AuthButton">Sign In</a></li>
         <li><a href="https://github.com/xzyaoi/sotaweb">About</a></li>
         <li><a href="https://opencollective.com/autoai">Donate</a></li>
         <li><a name="add-to-home-screen">Add to Homescreen</a></li>
@@ -82,7 +76,7 @@
 <footer>
     <script>
         M.AutoInit()
-        initAnvil()
+        initAuth()
         generateEmailAvatar()
         function triggerSearch(e, self) {
             var event = e || window.event;

@@ -1,6 +1,6 @@
 var current_curr = 0
 var current_keyword = ""
-
+var auth
 /**
  * Query Papers
  * @param {*} keyword 
@@ -60,21 +60,46 @@ function triggerSideNav() {
 }
 
 /** User Management */
-function initAnvil() {
-    Anvil.configure({
-        issuer: 'https://auth.autoai.org',
-        client_id: '985c0693-82ec-4e92-a9f0-3ceb4016de90',
-        redirect_uri: 'https://arxiv.autoai.org/callback.html',
-        display: 'popup'
-    })
+function initAuth() {
+    var authData = {
+        ClientId : '3i7m8ru22h815pc88nco16dse5', // Your client id here
+        AppWebDomain : 'autoai.auth.us-east-1.amazoncognito.com', // Exclude the "https://" part. 
+        TokenScopesArray : ['profile', 'email'], // like ['openid','email','phone']...
+        RedirectUriSignIn : 'https://arxiv.autoai.org/callback.html',
+        RedirectUriSignOut : 'https://arxiv.autoai.org/callback.html',
+        IdentityProvider : '', 
+        UserPoolId : 'us-east-1_IYJ3FvCKZ', 
+        AdvancedSecurityDataCollectionFlag : false
+    }
+    auth = new AmazonCognitoIdentity.CognitoAuth(authData)
+		// You can also set state parameter 
+		// auth.setState(<state parameter>);  
+	auth.userhandler = {
+			onSuccess: function(result) {
+				alert("Sign in success");
+			},
+			onFailure: function(err) {
+
+            }
+		}
+		// The default response_type is "token", uncomment the next line will make it be "code".
+		// auth.useCodeGrantFlow()
+	return auth
 }
 
 function triggerAuth() {
-    Anvil.authorize().then(function (res) {
-        console.log(res)
-    }, function(fault) {
-        console.log(fault)
-    })
+    var state = document.getElementById('AuthButton').innerHTML
+    if (state === "Sign Out") {
+        document.getElementById("AuthButton").innerHTML = "Sign In"
+        auth.signOut()
+        showSignedOut()
+    } else {
+        auth.getSession()
+    }
+}
+
+function showSignedOut() {
+    document.getElementById("AuthButton").innerHTML = "Sign Out"
 }
 
 function generateEmailAvatar() {
