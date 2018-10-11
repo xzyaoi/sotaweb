@@ -16,7 +16,7 @@
     <title>Arxiv Reader</title>
 </head>
 
-<body>
+<body onload="onLoad()">
     <div class="navbar-fixed">
         <nav>
             <div class="nav-wrapper arxiv-nav-bar">
@@ -37,7 +37,7 @@
                     <img src="images/office.jpg">
                 </div>
                 <a href="#user"><img class="circle" id="arxiv-user-avatar"></a>
-                <a href="#name"><span class="white-text name">Anonymous</span></a>
+                <a href="#name"><span class="white-text name" id="arxiv-username">Anonymous</span></a>
                 <a href="#email"><span class="white-text email" id="arxiv-user-email">my@anonymous.com</span></a>
             </div>
         </li>
@@ -75,17 +75,7 @@
 </body>
 <footer>
     <script>
-        M.AutoInit()
-        initAuth()
-        generateEmailAvatar()
-        function triggerSearch(e, self) {
-            var event = e || window.event;
-            var key = event.which || event.keyCode || event.charCode;
-            if (key == 13) {
-                self.blur()
-                searchArxiv(self)
-            }
-        }
+
     </script>
 </footer>
 

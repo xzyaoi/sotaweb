@@ -1,6 +1,21 @@
 var current_curr = 0
 var current_keyword = ""
 var auth
+
+/**
+ * Search Trigger
+ * @param {*} e 
+ * @param {*} self 
+ */
+
+function triggerSearch(e, self) {
+    var event = e || window.event;
+    var key = event.which || event.keyCode || event.charCode;
+    if (key == 13) {
+        self.blur()
+        searchArxiv(self)
+    }
+}
 /**
  * Query Papers
  * @param {*} keyword 
@@ -76,10 +91,12 @@ function initAuth() {
 		// auth.setState(<state parameter>);  
 	auth.userhandler = {
 			onSuccess: function(result) {
-				alert("Sign in success");
+                // console.log(result)
+                // getUserInfo(result.accessToken.jwtToken)
+                showSignedOut()
 			},
 			onFailure: function(err) {
-
+                console.log(err)
             }
 		}
 		// The default response_type is "token", uncomment the next line will make it be "code".
@@ -103,8 +120,44 @@ function showSignedOut() {
 }
 
 function generateEmailAvatar() {
-    var email = document.getElementById('arxiv-user-email').innerHTML
+    var email = document.getElementById('arxiv-username').innerHTML
     var hash = md5(email)
     var avatar = 'https://www.gravatar.com/avatar/' + hash
     document.getElementById('arxiv-user-avatar').src = avatar
+}
+
+function check_auth() {
+    var curUrl = localStorage.getItem('url')
+    if (curUrl === '' || curUrl === null) {
+
+    } else {
+        auth.parseCognitoWebResponse(curUrl)
+        renderUser()
+    }
+}
+
+function getUserInfo(accessToken) {
+    var url = 'https://autoai.auth.us-east-1.amazoncognito.com/oauth2/userInfo'
+    fetch(url, {
+        headers: {
+            'Authorization': 'Bearer ' + accessToken
+        }
+    }).then(function(res) {
+        return res.json()
+    }).then(function(data) {
+        console.log(data)
+    })
+}
+
+function renderUser() {
+    document.getElementById('arxiv-username').innerHTML = localStorage.getItem('CognitoIdentityServiceProvider.3i7m8ru22h815pc88nco16dse5.LastAuthUser')
+}
+
+/** Bootstraper */
+
+function onLoad() {
+    M.AutoInit()
+    initAuth()
+    check_auth()
+    generateEmailAvatar()
 }
