@@ -1,6 +1,7 @@
 <html>
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="./main.css">
@@ -8,7 +9,7 @@
     <!-- Compiled and minified JavaScript -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-md5/2.10.0/js/md5.min.js"></script>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
     <script src="./assets/js/auth.js"></script>
     <script src="./assets/js/tmpl.js"></script>
     <script src="./main.js"></script>
@@ -45,6 +46,7 @@
         <li><a href="javascript:triggerAuth()" id="AuthButton">Sign In</a></li>
         <li><a href="https://github.com/xzyaoi/sotaweb">About</a></li>
         <li><a href="https://opencollective.com/autoai">Donate</a></li>
+        <li><a href="./credit.html">Credit</a></li>
         <li><a name="add-to-home-screen">Add to Homescreen</a></li>
     </ul>
     <div class="collection" id="results">
@@ -66,7 +68,7 @@
                 </div>
                 <div class="card-action arxiv-card-actions">
                     <a href="{%=o[i].pdf_url%}" target="_blank" class="arxiv-card-actions">Read Now</a>
-                    <a href="javascript:alert('not supported')" class="arxiv-card-actions">Read Later</a>
+                    <a href="javascript:addToReadList({%=i%})" class="arxiv-card-actions">Read Later</a>
                     <a href="https://www.arxiv-vanity.com/papers/{%=o[i].pure_id%}" target="_blank" class="arxiv-card-actions">Rendered</a>
                 </div>
             </div>            

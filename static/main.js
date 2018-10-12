@@ -1,7 +1,7 @@
 var current_curr = 0
 var current_keyword = ""
 var auth
-
+var current_papers = []
 /**
  * Search Trigger
  * @param {*} e 
@@ -36,6 +36,7 @@ function fetchPapers(keyword, max, start) {
         for(var i=0; i<data.length; i++) {
             data[i].pure_id = data[i].id.replace("http://arxiv.org/abs/", "")
         }
+        current_papers=data
         renderPapers(data)
     })
 }
@@ -81,7 +82,7 @@ function initAuth() {
         AppWebDomain : 'autoai.auth.us-east-1.amazoncognito.com', // Exclude the "https://" part. 
         TokenScopesArray : ['profile', 'email'], // like ['openid','email','phone']...
         RedirectUriSignIn : 'https://arxiv.autoai.org/callback.html',
-        RedirectUriSignOut : 'https://arxiv.autoai.org/callback.html',
+        RedirectUriSignOut : 'https://arxiv.autoai.org/logout.html',
         IdentityProvider : '', 
         UserPoolId : 'us-east-1_IYJ3FvCKZ', 
         AdvancedSecurityDataCollectionFlag : false
@@ -106,6 +107,7 @@ function initAuth() {
 
 function triggerAuth() {
     var state = document.getElementById('AuthButton').innerHTML
+    console.log(state)
     if (state === "Sign Out") {
         document.getElementById("AuthButton").innerHTML = "Sign In"
         auth.signOut()
@@ -132,7 +134,11 @@ function check_auth() {
 
     } else {
         auth.parseCognitoWebResponse(curUrl)
-        renderUser()
+        renderUser(isAnonymous=false)
+    }
+    var isLogout = localStorage.getItem('logout')
+    if (isLogout === 'true') {
+        renderUser(isAnonymous=true)
     }
 }
 
@@ -149,15 +155,58 @@ function getUserInfo(accessToken) {
     })
 }
 
-function renderUser() {
-    document.getElementById('arxiv-username').innerHTML = localStorage.getItem('CognitoIdentityServiceProvider.3i7m8ru22h815pc88nco16dse5.LastAuthUser')
+function renderUser(isAnonymous) {
+    if (!isAnonymous) {
+        document.getElementById('arxiv-username').innerHTML = auth.getCurrentUser()
+    } else {
+        document.getElementById("AuthButton").innerHTML = "Sign In"
+        document.getElementById('arxiv-username').innerHTML = 'Anonymous'
+    }
 }
 
+/** Record Store */
+var PaperObject = AV.Object.extend('Paper')
+function initStorage() {
+    var APP_ID = 'd5YGw5SsW1leEnyi2sVtj2Cf-gzGzoHsz'
+    var APP_KEY = '4ToLOh0XtJy5M6JufpDsWTF8'
+    
+    AV.init({
+      appId: APP_ID,
+      appKey: APP_KEY
+    })
+}
+
+function addToReadList(paper_id) {
+    var user = document.getElementById('arxiv-username').innerHTML
+    if (user === 'Anonymous') {
+        var toastHTML = '<span>Please Login First</span><a class="btn-flat toast-action" href="javascript:triggerAuth()">Login</a>'
+        M.toast({html: toastHTML})
+    } else {
+        var paper = new PaperObject()
+        paper.set('title', current_papers[paper_id].title)
+        paper.set('reader', user)
+        paper.set('author', current_papers[paper_id].authors[0])
+        paper.set('summary', current_papers[paper_id].summary)
+        paper.set('pdf_url', current_papers[paper_id].pdf_url)
+        paper.set('pure_id', current_papers[paper_id].pure_id)
+        paper.save().then(function (res) {
+            var toastHTML = '<span>Success</span>'
+            M.toast({html: toastHTML})
+        }, function(err) {
+            console.log(err)
+        })
+    }
+}
+
+function queryReadList() {
+
+}
 /** Bootstraper */
 
 function onLoad() {
     M.AutoInit()
     initAuth()
+    initStorage()
     check_auth()
     generateEmailAvatar()
 }
