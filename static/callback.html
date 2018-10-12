@@ -3,6 +3,7 @@
   <head>
     <script type="text/javascript">
       window.addEventListener('load', function () {
+        localStorage.setItem('logout', 'false')
         localStorage.setItem('url', window.location.href)
         location.href = './index.html'
       })
