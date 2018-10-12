@@ -44,6 +44,7 @@
         </li>
         <div id="firebaseui-auth-container"></div>
         <li><a href="javascript:triggerAuth()" id="AuthButton">Sign In</a></li>
+        <li><a href="javascript:queryReadList()">Read List</a></li>
         <li><a href="https://github.com/xzyaoi/sotaweb">About</a></li>
         <li><a href="https://opencollective.com/autoai">Donate</a></li>
         <li><a href="./credit.html">Credit</a></li>
@@ -63,7 +64,7 @@
             <div class="card arxiv-paper-card">
                 <div class="card-content">
                     <span class="card-title arxiv-paper-title">{%=o[i].title%}</span>
-                    <p class="arxiv-paper-author">by {%=o[i].authors[0]%} at {%=o[i].updated_parsed[0]%}-{%=o[i].updated_parsed[1]%}-{%=o[i].updated_parsed[2]%} {%=o[i].updated_parsed[3]%}:{%=o[i].updated_parsed[4]%}:{%=o[i].updated_parsed[5]%}</p>
+                    <p class="arxiv-paper-author">by {%=o[i].author%} at {%=o[i].updated_parsed[0]%}-{%=o[i].updated_parsed[1]%}-{%=o[i].updated_parsed[2]%} {%=o[i].updated_parsed[3]%}:{%=o[i].updated_parsed[4]%}:{%=o[i].updated_parsed[5]%}</p>
                     <p>{%=o[i].summary%}</p>
                 </div>
                 <div class="card-action arxiv-card-actions">

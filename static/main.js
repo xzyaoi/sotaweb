@@ -37,6 +37,7 @@ function fetchPapers(keyword, max, start) {
             data[i].pure_id = data[i].id.replace("http://arxiv.org/abs/", "")
         }
         current_papers=data
+        console.log(data)
         renderPapers(data)
     })
 }
@@ -185,10 +186,12 @@ function addToReadList(paper_id) {
         var paper = new PaperObject()
         paper.set('title', current_papers[paper_id].title)
         paper.set('reader', user)
-        paper.set('author', current_papers[paper_id].authors[0])
+        paper.set('author', current_papers[paper_id].author)
         paper.set('summary', current_papers[paper_id].summary)
         paper.set('pdf_url', current_papers[paper_id].pdf_url)
         paper.set('pure_id', current_papers[paper_id].pure_id)
+        paper.set('updated_parsed', current_papers[paper_id].updated_parsed)
+        paper.set('has_read', false)
         paper.save().then(function (res) {
             var toastHTML = '<span>Success</span>'
             M.toast({html: toastHTML})
@@ -199,7 +202,26 @@ function addToReadList(paper_id) {
 }
 
 function queryReadList() {
-
+    var user = document.getElementById('arxiv-username').innerHTML
+    if (user === 'Anonymous') {
+        var toastHTML = '<span>Please Login First</span><a class="btn-flat toast-action" href="javascript:triggerAuth()">Login</a>'
+        M.toast({html: toastHTML})
+    } else {
+        var query = new AV.Query('Paper')
+        query.equalTo('reader', user)
+        query.equalTo('has_read', false)
+        var toReadPapers = []
+        query.find().then(function (results) {
+            for (var i=0;i<results.length;i++) {
+                toReadPapers.push(results[i].attributes)
+            }
+            console.log(toReadPapers)
+            triggerSideNav()
+            renderPapers(toReadPapers)
+        }, function(error) {
+            console.log(error)
+        })
+    }
 }
 /** Bootstraper */
 
